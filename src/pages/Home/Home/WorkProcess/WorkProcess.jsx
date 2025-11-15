@@ -25,7 +25,7 @@ const WorkProcess = () => {
     },
   ];
   return (
-    <div className="mt-25 bg-zinc-200 p-10">
+    <div className="mt-25 bg-zinc-200 p-10 rounded-2xl">
       <h1 className="text-3xl text-start font-bold mb-15">How It Works</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
         {workData.map((data) => (
