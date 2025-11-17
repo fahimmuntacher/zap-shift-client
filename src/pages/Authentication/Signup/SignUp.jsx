@@ -1,6 +1,8 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
+import { Link } from "react-router";
+import useAuth from "../../../Hooks/useAuth";
 
 const SignUp = () => {
   const {
@@ -8,8 +10,14 @@ const SignUp = () => {
     formState: { errors },
     handleSubmit,
   } = useForm();
-
-  const onSubmit = (data) => console.log(data);
+  const {registerUser } = useAuth()
+  const onSubmit = (data) => {
+    registerUser(data.email, data.password).then(res => {
+      console.log(res.user);
+    }).catch(err => {
+      console.log(err);
+    })
+  }
 
   return (
     <div className="max-w-md w-full">
@@ -19,7 +27,6 @@ const SignUp = () => {
 
       {/* FORM START */}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-
         {/* Name */}
         <div>
           <label className="block text-sm font-medium mb-1">Name</label>
@@ -53,16 +60,21 @@ const SignUp = () => {
           <label className="block text-sm font-medium mb-1">Password</label>
           <input
             type="password"
-            {...register("password", { required: true, minLength: 6 })}
+            {...register("password", {
+              required: true,
+              pattern:
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+            })}
             placeholder="Password"
             className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-green-200"
           />
           {errors.password?.type === "required" && (
             <p className="text-red-500 text-sm">Password is required</p>
           )}
-          {errors.password?.type === "minLength" && (
+          {errors.password?.type === "pattern" && (
             <p className="text-red-500 text-sm">
-              Password must be at least 6 characters
+              Password must be at least 8 characters long and include uppercase,
+              lowercase, number, and special character.
             </p>
           )}
         </div>
@@ -79,7 +91,9 @@ const SignUp = () => {
       {/* Login Link */}
       <p className="mt-3 text-sm">
         Already have an account?{" "}
-        <a className="text-blue-600 cursor-pointer hover:underline">Login</a>
+        <Link to="/login">
+          <a className="text-blue-600 cursor-pointer hover:underline">Login</a>
+        </Link>
       </p>
 
       {/* Divider */}

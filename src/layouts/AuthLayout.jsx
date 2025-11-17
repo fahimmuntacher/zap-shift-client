@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet } from "react-router";
+import { Link, Outlet } from "react-router";
 import Logo from "../components/Logo/Logo";
 import authImg from "../assets/authImage.png";
 
@@ -8,7 +8,7 @@ const AuthLayout = () => {
     <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2 bg-white">
       {/* Left Side */}
       <div className="flex flex-col justify-center px-10 lg:px-20">
-        <Logo />
+        <Link to="/"><Logo /></Link>
 
         <div className="mt-10">
           <Outlet />
