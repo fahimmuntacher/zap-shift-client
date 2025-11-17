@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router";
 import useAuth from "../../../Hooks/useAuth";
+import SocialLogin from "../SocialLogin/SocialLogin";
 
 const SignUp = () => {
   const {
@@ -12,6 +13,7 @@ const SignUp = () => {
   } = useForm();
   const {registerUser } = useAuth()
   const onSubmit = (data) => {
+    console.log(data);
     registerUser(data.email, data.password).then(res => {
       console.log(res.user);
     }).catch(err => {
@@ -79,6 +81,22 @@ const SignUp = () => {
           )}
         </div>
 
+        {/* photo  */}
+        <div>
+          <label className="block text-sm font-medium mb-1">Image</label>
+          <input
+            type="file"
+            {...register("file", { required: true })}
+            placeholder="Your Photo"
+            className="file-input file-input-success w-full border rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-green-200"
+          />
+          {errors.file && (
+            <p className="text-red-500 text-sm">Image is required</p>
+          )}
+        </div>
+        
+
+
         {/* Register button */}
         <button
           type="submit"
@@ -98,16 +116,13 @@ const SignUp = () => {
 
       {/* Divider */}
       <div className="flex items-center gap-2 my-4">
-        <div className="flex-1 h-[1px] bg-gray-300"></div>
+        <div className="flex-1 h-px bg-gray-300"></div>
         <span className="text-gray-500 text-sm">Or</span>
-        <div className="flex-1 h-[1px] bg-gray-300"></div>
+        <div className="flex-1 h-px bg-gray-300"></div>
       </div>
 
       {/* Google Register */}
-      <button className="w-full border py-2 rounded-md flex items-center justify-center gap-3 hover:bg-gray-50 transition">
-        <FcGoogle size={22} />
-        <span className="font-medium">Register with Google</span>
-      </button>
+      <SocialLogin></SocialLogin>
     </div>
   );
 };

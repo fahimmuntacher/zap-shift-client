@@ -1,10 +1,14 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import useAuth from "../../../Hooks/useAuth";
+import SocialLogin from "../SocialLogin/SocialLogin";
 
 const SignUp = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  let from = location.state?.from?.pathname || "/";
   const {
     register,
     formState: { errors },
@@ -16,6 +20,7 @@ const SignUp = () => {
     singInUser(data.email, data.password).then(res => {
       console.log(res);
       alert("sign in successful")
+      navigate(from, { replace: true });
     }).catch(err => {
       console.log(err);
     })
@@ -85,12 +90,7 @@ const SignUp = () => {
         <span className="text-gray-500 text-sm">Or</span>
         <div className="flex-1 h-px bg-gray-300"></div>
       </div>
-
-      {/* Google Register */}
-      <button className="w-full border py-2 rounded-md flex items-center justify-center gap-3 hover:bg-gray-50 transition">
-        <FcGoogle size={22} />
-        <span className="font-medium">Register with Google</span>
-      </button>
+          <SocialLogin></SocialLogin>
     </div>
   );
 };
