@@ -25,7 +25,7 @@ const SignUp = () => {
     <div className="max-w-md w-full">
       {/* Title */}
       <h1 className="text-3xl font-bold">Welcome Back</h1>
-      <p className="text-gray-600 mt-1 mb-6">Please login ZapShift</p>
+      <p className="text-gray-600 mt-1 mb-6">Please login <span className="font-semibold">ZapShift</span></p>
 
       {/* FORM START */}
       <form onSubmit={handleSubmit(handleLogin)} className="space-y-4">
