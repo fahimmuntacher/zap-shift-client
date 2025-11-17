@@ -1,52 +1,113 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link, NavLink } from "react-router";
+import { FiArrowUpRight } from "react-icons/fi";
 import Logo from "../../../components/Logo/Logo";
-import { NavLink } from "react-router";
 
 const Navbar = () => {
-  const links = (
-    <>
-     <NavLink to="/coverage">
-      <li>Coverage</li>
-     </NavLink>
-    </>
-  );
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const linkClasses = ({ isActive }) =>
+    `px-3 py-2 font-medium transition ${
+      isActive ? "text-black font-semibold" : "text-gray-600 hover:text-black"
+    }`;
+
+  const closeMenu = () => setMenuOpen(false);
+  const links = <>
+<NavLink to="/services" className={linkClasses}>Services</NavLink>
+            <NavLink to="/coverage" className={linkClasses}>Coverage</NavLink>
+            <NavLink to="/about" className={linkClasses}>About Us</NavLink>
+            <NavLink to="/pricing" className={linkClasses}>Pricing</NavLink>
+            <NavLink to="/be-rider" className={linkClasses}>Be a Rider</NavLink>
+  </>
   return (
-    <div className="navbar bg-base-100 shadow-sm">
-      <div className="navbar-start">
-        <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+
+    <div className="w-full bg-white/80 backdrop-blur-md">
+      <div className="max-w-7xl mx-auto navbar px-4 relative">
+
+        {/* Left */}
+        <div className="navbar-start flex items-center gap-2">
+          {/* Mobile Hamburger */}
+          <button
+            className="btn btn-ghost p-2 lg:hidden"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
+              className="h-6 w-6"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              {" "}
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
-                d="M4 6h16M4 12h8m-8 6h16"
-              />{" "}
+                d="M4 6h16M4 12h16m-8 6h8"
+              />
             </svg>
-          </div>
-          <ul
-            tabIndex="-1"
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
-          >
-            {links}
-          </ul>
+          </button>
+
+          {/* Logo */}
+          <Link to="/">
+            <Logo />
+          </Link>
         </div>
-        <Logo></Logo>
-      </div>
-      <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
-          {links}
-        </ul>
-      </div>
-      <div className="navbar-end">
-        <a className="btn">Button</a>
+
+        {/* Desktop Menu */}
+        <div className="navbar-center hidden lg:flex">
+          <div className="flex items-center gap-8">
+            {links}
+          </div>
+        </div>
+
+        {/* Desktop Right */}
+        <div className="navbar-end hidden lg:flex gap-3">
+          <NavLink
+            to="/login"
+            className="px-5 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition"
+          >
+            Sign In
+          </NavLink>
+
+          <NavLink
+            to="/be-rider"
+            className="flex items-center gap-2 px-5 py-2 rounded-lg bg-[#D5F36A] text-black font-semibold hover:bg-[#c4e65c] transition"
+          >
+            Be a rider
+            <div className="bg-black text-white p-1.5 rounded-full">
+              <FiArrowUpRight size={16} />
+            </div>
+          </NavLink>
+        </div>
+
+        {/* MOBILE MENU*/}
+        {menuOpen && (
+          <div className="absolute left-0 top-full w-full bg-white shadow-lg p-4 rounded-b-xl lg:hidden z-50">
+            <div className="flex flex-col gap-3">
+              {links}
+              <NavLink
+                to="/login"
+                onClick={closeMenu}
+                className="mt-2 text-center px-4 py-2 rounded-lg border text-gray-700 hover:bg-gray-100 transition"
+              >
+                Sign In
+              </NavLink>
+
+              <NavLink
+                to="/be-rider"
+                onClick={closeMenu}
+                className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-[#D5F36A] text-black font-semibold hover:bg-[#c4e65c] transition"
+              >
+                Be a rider
+                <div className="bg-black text-white p-1.5 rounded-full">
+                  <FiArrowUpRight size={16} />
+                </div>
+              </NavLink>
+
+            </div>
+          </div>
+        )}
+
       </div>
     </div>
   );

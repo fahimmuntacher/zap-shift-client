@@ -119,17 +119,6 @@ const Coverage = () => {
                       ))}
                     </ul>
                   </div>
-
-                  {center.flowchart && (
-                    <a
-                      href={center.flowchart}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block mt-3 text-blue-600 underline text-sm font-medium"
-                    >
-                      View Flowchart →
-                    </a>
-                  )}
                 </div>
               </Popup>
             </Marker>
