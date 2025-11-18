@@ -17,14 +17,16 @@ const Navbar = () => {
 
   const linkClasses = ({ isActive }) =>
     `px-3 py-2 font-medium transition ${
-      isActive ? "text-black font-semibold" : "text-gray-600 hover:text-black"
+      isActive ? "bg-[#CAEB66] rounded-3xl text-black font-semibold" : "bg-white rounded-3xl text-gray-600 hover:text-black"
     }`;
 
-  const closeMenu = () => setMenuOpen(false);
   const links = (
     <>
       <NavLink to="/services" className={linkClasses}>
         Services
+      </NavLink>
+      <NavLink to="/send-parcel" className={linkClasses}>
+        Send Parcel
       </NavLink>
       <NavLink to="/coverage" className={linkClasses}>
         Coverage
