@@ -1,15 +1,46 @@
-import React from "react";
-import { useForm } from "react-hook-form";
+import React, { useMemo } from "react";
+import { useForm, useWatch } from "react-hook-form";
+
+import { useLoaderData } from "react-router";
 
 const SendParcel = () => {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm();
 
+  const serviceCenter = useLoaderData();
+  const regionDuplicate = serviceCenter.map((c) => c.region);
+  const regions = [...new Set(regionDuplicate)];
+  const senderRegion = useWatch({ control, name: "senderRegion" });
+  const reciverRegion = useWatch({ control, name: "reciverRegion" });
+
+  const districtByRegion = (region) => {
+    const regionDistrict = serviceCenter.filter((c) => c.region === region);
+    const district = regionDistrict.map((d) => d.district);
+    return district;
+  };
+
   const handleAddParcel = (data) => {
-    console.log("Parcel Data:", data);
+    const isDocument = data.parcelType === "document";
+    const parcelWeight = data.parcelWeight;
+    const isSameCity = data.reciverDistrict === data.senderDistrict;
+    let cost = 0;
+    if(isDocument){
+        cost = isSameCity ? 60 : 80;
+    }else{
+        if(parcelWeight < 3){
+            cost = isSameCity ? 110 : 150;
+        }else{
+            const minCharge = isSameCity ? 110 : 150;
+            const extraWeight = parcelWeight - 3;
+            const extraCharge = isSameCity ? extraWeight * 40 : extraWeight * 40 + 40;
+            cost = minCharge + extraCharge
+        }
+    }
+    console.log(cost);
   };
 
   return (
@@ -102,6 +133,46 @@ const SendParcel = () => {
                   />
                 </fieldset>
               </div>
+              <div className="mt-5">
+                <fieldset className="fieldset">
+                  <legend className="fieldset-legend text-lg text-gray-700">
+                    Sender Regions
+                  </legend>
+                  <select
+                    {...register("senderRegion")}
+                    defaultValue="Select a region"
+                    className="select w-full"
+                  >
+                    <option disabled={true}>Select a region</option>
+                    {regions.map((r, i) => (
+                      <option key={i} value={r}>
+                        {r}
+                      </option>
+                    ))}
+                  </select>
+                </fieldset>
+              </div>
+
+              {/* district selection */}
+              <div className="mt-5">
+                <fieldset className="fieldset">
+                  <legend className="fieldset-legend text-lg text-gray-700">
+                    Sender District
+                  </legend>
+                  <select
+                    {...register("senderDistrict")}
+                    defaultValue="Select a region"
+                    className="select w-full"
+                  >
+                    <option disabled={true}>Select a district</option>
+                    {districtByRegion(senderRegion).map((r, i) => (
+                      <option key={i} value={r}>
+                        {r}
+                      </option>
+                    ))}
+                  </select>
+                </fieldset>
+              </div>
 
               <div className="mt-5 flex gap-2.5">
                 <fieldset className="fieldset w-1/2">
@@ -129,19 +200,7 @@ const SendParcel = () => {
                 </fieldset>
               </div>
 
-              <div className="mt-5">
-                <fieldset className="fieldset">
-                  <label className="label text-lg font-semibold text-gray-700">
-                    Your Region
-                  </label>
-                  <input
-                    type="text"
-                    {...register("senderRegion")}
-                    className="input w-full"
-                    placeholder="Select your region"
-                  />
-                </fieldset>
-              </div>
+              
 
               <div className="mt-5">
                 <fieldset className="fieldset">
@@ -187,6 +246,47 @@ const SendParcel = () => {
                 </fieldset>
               </div>
 
+              <div className="mt-5">
+                <fieldset className="fieldset">
+                  <legend className="fieldset-legend text-lg text-gray-700">
+                    Reciver Regions
+                  </legend>
+                  <select
+                    {...register("reciverRegion")}
+                    defaultValue="Select a region"
+                    className="select w-full"
+                  >
+                    <option disabled={true}>Select a region</option>
+                    {regions.map((r, i) => (
+                      <option key={i} value={r}>
+                        {r}
+                      </option>
+                    ))}
+                  </select>
+                </fieldset>
+              </div>
+
+              {/* district selection */}
+              <div className="mt-5">
+                <fieldset className="fieldset">
+                  <legend className="fieldset-legend text-lg text-gray-700">
+                    Reciver District
+                  </legend>
+                  <select
+                    {...register("reciverDistrict")}
+                    defaultValue="Select a region"
+                    className="select w-full"
+                  >
+                    <option disabled={true}>Select a district</option>
+                    {districtByRegion(reciverRegion).map((r, i) => (
+                      <option key={i} value={r}>
+                        {r}
+                      </option>
+                    ))}
+                  </select>
+                </fieldset>
+              </div>
+
               <div className="mt-5 flex gap-2.5">
                 <fieldset className="fieldset w-1/2">
                   <label className="label text-lg font-semibold text-gray-700">
@@ -209,20 +309,6 @@ const SendParcel = () => {
                     {...register("receiverContact")}
                     className="input w-full"
                     placeholder="Contact No."
-                  />
-                </fieldset>
-              </div>
-
-              <div className="mt-5">
-                <fieldset className="fieldset">
-                  <label className="label text-lg font-semibold text-gray-700">
-                    Receiver Region
-                  </label>
-                  <input
-                    type="text"
-                    {...register("receiverRegion")}
-                    className="input w-full"
-                    placeholder="Select region"
                   />
                 </fieldset>
               </div>
