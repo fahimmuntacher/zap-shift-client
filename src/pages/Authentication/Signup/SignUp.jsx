@@ -4,6 +4,7 @@ import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router";
 import useAuth from "../../../Hooks/useAuth";
 import SocialLogin from "../SocialLogin/SocialLogin";
+import axios from "axios";
 
 const SignUp = () => {
   const {
@@ -11,15 +12,43 @@ const SignUp = () => {
     formState: { errors },
     handleSubmit,
   } = useForm();
-  const {registerUser } = useAuth()
+
+  const { registerUser, updateUserProfile } = useAuth();
+
+  // handle signup
   const onSubmit = (data) => {
-    console.log(data);
-    registerUser(data.email, data.password).then(res => {
-      console.log(res.user);
-    }).catch(err => {
-      console.log(err);
-    })
-  }
+    console.log(data.photo[0]);
+    const profileImg = data.photo[0];
+
+    registerUser(data.email, data.password)
+      .then((res) => {
+        console.log(res.user);
+        const formData = new FormData();
+        formData.append("image", profileImg);
+        const image_api_url = `https://api.imgbb.com/1/upload?key=${
+          import.meta.env.VITE_IMG_HOST
+        }`;
+        axios.post(image_api_url, formData).then((res) => {
+          console.log("After image upload", res.data.data.url);
+          const userProfile = {
+            displayName: data.name,
+            photoURL: res.data.data.url,
+          };
+          updateUserProfile(userProfile)
+            .then(() => {
+              console.log("user profile updated done");
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        });
+
+        // update profile
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <div className="max-w-md w-full">
@@ -86,16 +115,14 @@ const SignUp = () => {
           <label className="block text-sm font-medium mb-1">Image</label>
           <input
             type="file"
-            {...register("file", { required: true })}
+            {...register("photo", { required: true })}
             placeholder="Your Photo"
-            className="file-input file-input-success w-full border rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-green-200"
+            className="file-input w-full border rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-green-200"
           />
-          {errors.file && (
+          {errors.photo && (
             <p className="text-red-500 text-sm">Image is required</p>
           )}
         </div>
-        
-
 
         {/* Register button */}
         <button
