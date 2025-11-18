@@ -2,15 +2,18 @@ import React, { useMemo } from "react";
 import { useForm, useWatch } from "react-hook-form";
 
 import { useLoaderData } from "react-router";
+import Swal from "sweetalert2";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const SendParcel = () => {
   const {
     register,
     handleSubmit,
     control,
-    formState: { errors },
+    // formState: { errors },
   } = useForm();
 
+  const axiosSecure = useAxiosSecure()
   const serviceCenter = useLoaderData();
   const regionDuplicate = serviceCenter.map((c) => c.region);
   const regions = [...new Set(regionDuplicate)];
@@ -28,19 +31,41 @@ const SendParcel = () => {
     const parcelWeight = data.parcelWeight;
     const isSameCity = data.reciverDistrict === data.senderDistrict;
     let cost = 0;
-    if(isDocument){
-        cost = isSameCity ? 60 : 80;
-    }else{
-        if(parcelWeight < 3){
-            cost = isSameCity ? 110 : 150;
-        }else{
-            const minCharge = isSameCity ? 110 : 150;
-            const extraWeight = parcelWeight - 3;
-            const extraCharge = isSameCity ? extraWeight * 40 : extraWeight * 40 + 40;
-            cost = minCharge + extraCharge
-        }
+    if (isDocument) {
+      cost = isSameCity ? 60 : 80;
+    } else {
+      if (parcelWeight < 3) {
+        cost = isSameCity ? 110 : 150;
+      } else {
+        const minCharge = isSameCity ? 110 : 150;
+        const extraWeight = parcelWeight - 3;
+        const extraCharge = isSameCity
+          ? extraWeight * 40
+          : extraWeight * 40 + 40;
+        cost = minCharge + extraCharge;
+      }
     }
-    console.log(cost);
+    Swal.fire({
+      title: "Agreed with our delivery cost?",
+      text: `You will be charged for ${cost} tk`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure.post("/parcel", data).then(res => {
+            console.log("after saving parcel", res) ;
+            
+        })
+        // Swal.fire({
+        //   title: "Deleted!",
+        //   text: "Your file has been deleted.",
+        //   icon: "success",
+        // });
+      }
+    });
   };
 
   return (
@@ -199,8 +224,6 @@ const SendParcel = () => {
                   />
                 </fieldset>
               </div>
-
-              
 
               <div className="mt-5">
                 <fieldset className="fieldset">
