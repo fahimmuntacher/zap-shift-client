@@ -3,7 +3,6 @@ import { Link, NavLink } from "react-router";
 import { FiArrowUpRight } from "react-icons/fi";
 import Logo from "../../../components/Logo/Logo";
 import useAuth from "../../../Hooks/useAuth";
-import PrivateRoute from "../../../routes/PrivateRoute/PrivateRoute";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -37,6 +36,11 @@ const Navbar = () => {
       <NavLink to="/pricing" className={linkClasses}>
         Pricing
       </NavLink>
+      {
+        user && <NavLink to="dahsboard/my-parcel" className={linkClasses}>
+        My Parcel
+      </NavLink>
+      }
     </>
   );
   return (
