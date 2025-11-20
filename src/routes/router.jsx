@@ -10,6 +10,7 @@ import BeRider from "../pages/BeRider/BeRider";
 import SendParcel from "../pages/SendParcel/SendParcel";
 import DashBoardLayout from "../layouts/DashBoardLayout";
 import UserDashboard from "../pages/User/UserDashboard";
+import Payment from "../pages/User/Payment/Payment";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -66,6 +67,10 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <UserDashboard></UserDashboard>
+      },
+      {
+        path: "payment/:parcelId",
+        element: <Payment></Payment>
       }
     ]
   }

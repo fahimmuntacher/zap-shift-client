@@ -4,9 +4,20 @@ import { FaEdit, FaUpload } from "react-icons/fa";
 import { FaTrashCan } from "react-icons/fa6";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
+import useAuth from "../../Hooks/useAuth";
+import { Link } from "react-router";
 
-const ShippigList = ({ parcels }) => {
+const ShippigList = () => {
+  const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
+  const { data: parcels = [], refetch } = useQuery({
+    queryKey: ["myParcel", user?.email],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/parcel?${user?.email}`);
+      return res.data;
+    },
+  });
   const handleParcelDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -20,6 +31,7 @@ const ShippigList = ({ parcels }) => {
       if (result.isConfirmed) {
         axiosSecure.delete(`/parcel/${id}`).then((res) => {
           if (res.data.deletedCount > 0) {
+            refetch();
             Swal.fire({
               title: "Deleted!",
               text: "Your parcel request has been delete!",
@@ -78,7 +90,7 @@ const ShippigList = ({ parcels }) => {
               <th>Weight</th>
               <th>Shipper</th>
               <th>Cost</th>
-              <th>Status</th>
+              <th>Payment Status</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -92,7 +104,14 @@ const ShippigList = ({ parcels }) => {
                 <td>{parcel.parcelWeight} kg</td>
                 <td></td>
                 <td>{parcel.cost} taka</td>
-                <td></td>
+                <td>
+                  {parcel.paymentStatus === "Paid" ? (
+                    <span className="bg-green-300 p-2 font-semibold">Paid</span>
+                  ) : (
+                    <Link to={`payment/${parcel._id}`}>
+                    <span className="bg-yellow-300 p-2 font-semibold btn">Pay</span></Link>
+                  )}
+                </td>
                 <td className="flex items-center gap-3.5 text-lg">
                   <button className="btn">
                     <FaEdit></FaEdit>
