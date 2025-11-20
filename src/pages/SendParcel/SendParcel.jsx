@@ -46,6 +46,7 @@ const SendParcel = () => {
         cost = minCharge + extraCharge;
       }
     }
+    data.cost = cost;
     Swal.fire({
       title: "Agreed with our delivery cost?",
       text: `You will be charged for ${cost} tk`,
@@ -136,19 +137,30 @@ const SendParcel = () => {
               <div className="mt-5 flex gap-2.5">
                 <fieldset className="fieldset w-1/2">
                   <label className="label text-lg font-semibold text-gray-700">
+                    Sender Name*
+                  </label>
+                  <input
+                    type="text"
+                    {...register("senderName", { required: "true" })}
+                    className="input w-full"
+                    placeholder="Sender Name"
+                  />
+                </fieldset>
+                <fieldset className="fieldset w-1/2">
+                  <label className="label text-lg font-semibold text-gray-700">
                     Sender Email
                   </label>
                   <input
                     type="email"
                     {...register("senderEmail", { required: "true" })}
                     className="input w-full cursor-not-allowed"
-                    value={user.email}
+                    value={user?.email}
                     readOnly
                     disabled={true}
                   />
                 </fieldset>
-
-                <fieldset className="fieldset w-1/2">
+              </div>
+               <fieldset className="fieldset w-full mt-5">
                   <label className="label text-lg font-semibold text-gray-700">
                     Sender Pickup Warehouse*
                   </label>
@@ -159,10 +171,6 @@ const SendParcel = () => {
                     placeholder="Select Warehouse"
                   />
                 </fieldset>
-                {errors.name && (
-                  <p className="text-red-500 text-sm">Warehouse is required</p>
-                )}
-              </div>
               <div className="mt-5">
                 <fieldset className="fieldset">
                   <legend className="fieldset-legend text-lg text-gray-700">
@@ -251,6 +259,17 @@ const SendParcel = () => {
               <div className="mt-5 flex gap-2.5">
                 <fieldset className="fieldset w-1/2">
                   <label className="label text-lg font-semibold text-gray-700">
+                    Receiver Name*
+                  </label>
+                  <input
+                    type="text"
+                    {...register("receiverName", { required: true })}
+                    className="input w-full"
+                    placeholder="Receiver Email"
+                  />
+                </fieldset>
+                <fieldset className="fieldset w-1/2">
+                  <label className="label text-lg font-semibold text-gray-700">
                     Receiver Email*
                   </label>
                   <input
@@ -261,7 +280,9 @@ const SendParcel = () => {
                   />
                 </fieldset>
 
-                <fieldset className="fieldset w-1/2">
+                
+              </div>
+              <fieldset className="fieldset w-full mt-5">
                   <label className="label text-lg font-semibold text-gray-700">
                     Receiver Delivery Warehouse*
                   </label>
@@ -272,7 +293,6 @@ const SendParcel = () => {
                     placeholder="Select Warehouse"
                   />
                 </fieldset>
-              </div>
 
               <div className="mt-5">
                 <fieldset className="fieldset">

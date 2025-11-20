@@ -1,0 +1,8 @@
+.active-nav {
+  background-color: #CAEB66;
+  font-weight: bold;
+}
+
+.inactive-nav {
+    font-weight: 700;
+}

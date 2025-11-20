@@ -9,7 +9,7 @@ import PrivateRoute from "./PrivateRoute/PrivateRoute";
 import BeRider from "../pages/BeRider/BeRider";
 import SendParcel from "../pages/SendParcel/SendParcel";
 import DashBoardLayout from "../layouts/DashBoardLayout";
-import MyParcel from "../pages/MyParcel/MyParcel";
+import UserDashboard from "../pages/User/UserDashboard";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -60,12 +60,12 @@ export const router = createBrowserRouter([
   },
 
   {
-    path: "/dahsboard",
+    path: "/dashboard",
     element: <PrivateRoute><DashBoardLayout></DashBoardLayout></PrivateRoute>,
     children :[
       {
-        path: "my-parcel",
-        element: <MyParcel></MyParcel>
+        index: true,
+        element: <UserDashboard></UserDashboard>
       }
     ]
   }

@@ -35,7 +35,7 @@ const Navbar = () => {
         Pricing
       </NavLink>
       {
-        user && <NavLink to="/dahsboard" className={linkClasses}>
+        user && <NavLink to="/dashboard" className={linkClasses}>
         Dashboard
       </NavLink>
       }
