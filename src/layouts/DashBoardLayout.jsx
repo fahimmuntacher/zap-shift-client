@@ -1,12 +1,13 @@
 import React from "react";
 import Logo from "../components/Logo/Logo";
 import { Link, NavLink, Outlet } from "react-router";
-import { MdOutlineProductionQuantityLimits } from "react-icons/md";
+
+import { GrDeliver } from "react-icons/gr";
 
 const DashBoardLayout = () => {
     const linkClasses = ({ isActive }) =>
     `px-3 py-2 font-medium transition flex${
-      isActive ? "bg-[#CAEB66] rounded-3xl text-black font-semibold" : ""
+      isActive ? "bg-[#CAEB66] rounded-3xl text-black font-bold" : ""
     }`;
   return (
     <div className="drawer lg:drawer-open">
@@ -87,7 +88,7 @@ const DashBoardLayout = () => {
             <li>
               <NavLink to="my-parcel" className={linkClasses}>
                 <button className="flex items-center gap-2.5">
-                    <MdOutlineProductionQuantityLimits />
+                    <GrDeliver />
                     <span className="is-drawer-close:hidden">My Parcels</span>
                 </button>
               </NavLink>

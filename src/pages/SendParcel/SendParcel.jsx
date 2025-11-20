@@ -1,21 +1,22 @@
-import React, { useMemo } from "react";
 import { useForm, useWatch } from "react-hook-form";
 
 import { useLoaderData } from "react-router";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
-
+import useAuth from "../../Hooks/useAuth";
 const SendParcel = () => {
   const {
     register,
     handleSubmit,
     control,
-    // formState: { errors },
+    formState: { errors },
+    reset,
   } = useForm();
 
-  const axiosSecure = useAxiosSecure()
+  const axiosSecure = useAxiosSecure();
   const serviceCenter = useLoaderData();
   const regionDuplicate = serviceCenter.map((c) => c.region);
+  const { user } = useAuth();
   const regions = [...new Set(regionDuplicate)];
   const senderRegion = useWatch({ control, name: "senderRegion" });
   const reciverRegion = useWatch({ control, name: "reciverRegion" });
@@ -55,15 +56,14 @@ const SendParcel = () => {
       confirmButtonText: "Yes!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosSecure.post("/parcel", data).then(res => {
-            console.log("after saving parcel", res) ;
-            
-        })
-        // Swal.fire({
-        //   title: "Deleted!",
-        //   text: "Your file has been deleted.",
-        //   icon: "success",
-        // });
+        axiosSecure.post("/parcel", data).then(() => {
+          reset();
+        });
+        Swal.fire({
+          title: "Confirmed!",
+          text: "Your parcel has been added.",
+          icon: "success",
+        });
       }
     });
   };
@@ -104,11 +104,11 @@ const SendParcel = () => {
           <div className="mt-10 border-t py-6 border-gray-300 flex flex-col sm:flex-row gap-5">
             <fieldset className="fieldset w-full">
               <label className="label text-lg font-semibold text-gray-700">
-                Parcel Name
+                Parcel Name*
               </label>
               <input
                 type="text"
-                {...register("parcelName")}
+                {...register("parcelName", { required: true })}
                 className="input w-full"
                 placeholder="Parcel Name"
               />
@@ -116,11 +116,11 @@ const SendParcel = () => {
 
             <fieldset className="fieldset w-full">
               <label className="label text-lg font-semibold text-gray-700">
-                Parcel Weight (KG)
+                Parcel Weight (KG)*
               </label>
               <input
                 type="number"
-                {...register("parcelWeight")}
+                {...register("parcelWeight", { required: true })}
                 className="input w-full"
                 placeholder="Parcel Weight (KG)"
               />
@@ -140,31 +140,36 @@ const SendParcel = () => {
                   </label>
                   <input
                     type="email"
-                    {...register("senderEmail")}
-                    className="input w-full"
-                    placeholder="Sender Email"
+                    {...register("senderEmail", { required: "true" })}
+                    className="input w-full cursor-not-allowed"
+                    value={user.email}
+                    readOnly
+                    disabled={true}
                   />
                 </fieldset>
 
                 <fieldset className="fieldset w-1/2">
                   <label className="label text-lg font-semibold text-gray-700">
-                    Sender Pickup Warehouse
+                    Sender Pickup Warehouse*
                   </label>
                   <input
                     type="text"
-                    {...register("senderWarehouse")}
+                    {...register("senderWarehouse", { required: "true" })}
                     className="input w-full"
                     placeholder="Select Warehouse"
                   />
                 </fieldset>
+                {errors.name && (
+                  <p className="text-red-500 text-sm">Warehouse is required</p>
+                )}
               </div>
               <div className="mt-5">
                 <fieldset className="fieldset">
                   <legend className="fieldset-legend text-lg text-gray-700">
-                    Sender Regions
+                    Sender Regions*
                   </legend>
                   <select
-                    {...register("senderRegion")}
+                    {...register("senderRegion", { required: true })}
                     defaultValue="Select a region"
                     className="select w-full"
                   >
@@ -182,10 +187,10 @@ const SendParcel = () => {
               <div className="mt-5">
                 <fieldset className="fieldset">
                   <legend className="fieldset-legend text-lg text-gray-700">
-                    Sender District
+                    Sender District*
                   </legend>
                   <select
-                    {...register("senderDistrict")}
+                    {...register("senderDistrict", { required: true })}
                     defaultValue="Select a region"
                     className="select w-full"
                   >
@@ -202,11 +207,11 @@ const SendParcel = () => {
               <div className="mt-5 flex gap-2.5">
                 <fieldset className="fieldset w-1/2">
                   <label className="label text-lg font-semibold text-gray-700">
-                    Address
+                    Address*
                   </label>
                   <input
                     type="text"
-                    {...register("senderAddress")}
+                    {...register("senderAddress", { required: true })}
                     className="input w-full"
                     placeholder="Address"
                   />
@@ -214,11 +219,11 @@ const SendParcel = () => {
 
                 <fieldset className="fieldset w-1/2">
                   <label className="label text-lg font-semibold text-gray-700">
-                    Sender Contact No.
+                    Sender Contact No*
                   </label>
                   <input
                     type="number"
-                    {...register("senderContact")}
+                    {...register("senderContact", { required: true })}
                     className="input w-full"
                     placeholder="Contact No."
                   />
@@ -246,11 +251,11 @@ const SendParcel = () => {
               <div className="mt-5 flex gap-2.5">
                 <fieldset className="fieldset w-1/2">
                   <label className="label text-lg font-semibold text-gray-700">
-                    Receiver Email
+                    Receiver Email*
                   </label>
                   <input
                     type="email"
-                    {...register("receiverEmail")}
+                    {...register("receiverEmail", { required: true })}
                     className="input w-full"
                     placeholder="Receiver Email"
                   />
@@ -258,11 +263,11 @@ const SendParcel = () => {
 
                 <fieldset className="fieldset w-1/2">
                   <label className="label text-lg font-semibold text-gray-700">
-                    Receiver Delivery Warehouse
+                    Receiver Delivery Warehouse*
                   </label>
                   <input
                     type="text"
-                    {...register("receiverWarehouse")}
+                    {...register("receiverWarehouse", { required: true })}
                     className="input w-full"
                     placeholder="Select Warehouse"
                   />
@@ -272,10 +277,10 @@ const SendParcel = () => {
               <div className="mt-5">
                 <fieldset className="fieldset">
                   <legend className="fieldset-legend text-lg text-gray-700">
-                    Reciver Regions
+                    Reciver Regions*
                   </legend>
                   <select
-                    {...register("reciverRegion")}
+                    {...register("reciverRegion", { required: true })}
                     defaultValue="Select a region"
                     className="select w-full"
                   >
@@ -293,10 +298,10 @@ const SendParcel = () => {
               <div className="mt-5">
                 <fieldset className="fieldset">
                   <legend className="fieldset-legend text-lg text-gray-700">
-                    Reciver District
+                    Reciver District*
                   </legend>
                   <select
-                    {...register("reciverDistrict")}
+                    {...register("reciverDistrict", { required: true })}
                     defaultValue="Select a region"
                     className="select w-full"
                   >
@@ -313,11 +318,11 @@ const SendParcel = () => {
               <div className="mt-5 flex gap-2.5">
                 <fieldset className="fieldset w-1/2">
                   <label className="label text-lg font-semibold text-gray-700">
-                    Receiver Address
+                    Receiver Address*
                   </label>
                   <input
                     type="text"
-                    {...register("receiverAddress")}
+                    {...register("receiverAddress", { required: true })}
                     className="input w-full"
                     placeholder="Address"
                   />
@@ -325,11 +330,11 @@ const SendParcel = () => {
 
                 <fieldset className="fieldset w-1/2">
                   <label className="label text-lg font-semibold text-gray-700">
-                    Receiver Contact No.
+                    Receiver Contact No*
                   </label>
                   <input
                     type="number"
-                    {...register("receiverContact")}
+                    {...register("receiverContact", { required: true })}
                     className="input w-full"
                     placeholder="Contact No."
                   />

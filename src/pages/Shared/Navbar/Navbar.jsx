@@ -21,9 +21,7 @@ const Navbar = () => {
 
   const links = (
     <>
-      <NavLink to="/services" className={linkClasses}>
-        Services
-      </NavLink>
+      
       <NavLink to="/send-parcel" className={linkClasses}>
         Send Parcel
       </NavLink>
@@ -37,8 +35,8 @@ const Navbar = () => {
         Pricing
       </NavLink>
       {
-        user && <NavLink to="dahsboard/my-parcel" className={linkClasses}>
-        My Parcel
+        user && <NavLink to="/dahsboard" className={linkClasses}>
+        Dashboard
       </NavLink>
       }
     </>
