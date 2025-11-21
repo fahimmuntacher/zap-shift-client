@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BiMenu } from "react-icons/bi";
 import { FaEdit, FaUpload } from "react-icons/fa";
 import { FaTrashCan } from "react-icons/fa6";
@@ -6,8 +6,9 @@ import Swal from "sweetalert2";
 import useAuth from "../../Hooks/useAuth";
 import { Link } from "react-router";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import Loading from "../../components/Logo/Loading/Loading";
 
-const ShippigList = ({ parcels, refetch }) => {
+const ShippigList = ({ isLoading ,parcels, refetch }) => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const handleParcelDelete = (id) => {
@@ -34,6 +35,22 @@ const ShippigList = ({ parcels, refetch }) => {
       }
     });
   };
+
+  const handlePay = async (parcel) => {
+    const parcelInfo = {
+      cost : parcel.cost,
+      parcelName: parcel.parcelName,
+      senderEmail : parcel.senderEmail,
+      parcelId : parcel._id
+    }
+    const res = await axiosSecure.post('/payment-checkout-session', parcelInfo);
+    // console.log(res.data.url);
+    window.location.assign(res.data.url); 
+  }
+
+  if(isLoading){
+    return <Loading></Loading>
+  }
   return (
     <div className="bg-white shadow-sm p-10">
       {/* table intro */}
@@ -100,11 +117,11 @@ const ShippigList = ({ parcels, refetch }) => {
                   {parcel.paymentStatus === "Paid" ? (
                     <span className="bg-green-300 p-2 font-semibold">Paid</span>
                   ) : (
-                    <Link to={`payment/${parcel._id}`}>
-                      <span className="bg-yellow-300 p-2 font-semibold btn">
+                    
+                      <button onClick={() => handlePay(parcel)} className="bg-yellow-300 p-2 font-semibold btn">
                         Pay
-                      </span>
-                    </Link>
+                      </button>
+                    
                   )}
                 </td>
                 <td className="flex items-center gap-3.5 text-lg">

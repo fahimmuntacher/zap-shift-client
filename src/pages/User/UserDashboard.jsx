@@ -2,12 +2,14 @@ import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import ShippigList from "./ShippigList";
+import { useState } from "react";
 
 
 const UserDashboard = () => {
   const { user } = useAuth();
+  
    const axiosSecure = useAxiosSecure();
-    const { data: parcels = [], refetch } = useQuery({
+    const { isLoading ,data: parcels = [], refetch } = useQuery({
       queryKey: ["myParcel", user?.email],
       queryFn: async () => {
         const res = await axiosSecure.get(`/parcel?${user?.email}`);
@@ -17,7 +19,7 @@ const UserDashboard = () => {
   
   return (
     <div>
-      <ShippigList  parcels = { parcels } refetch = {refetch}></ShippigList>
+      <ShippigList isLoading = {isLoading} parcels = { parcels } refetch = {refetch}></ShippigList>
     </div>
   );
 };

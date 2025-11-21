@@ -1,6 +1,6 @@
 import { useForm, useWatch } from "react-hook-form";
 
-import { useLoaderData } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import useAuth from "../../Hooks/useAuth";
@@ -12,7 +12,7 @@ const SendParcel = () => {
     formState: { errors },
     reset,
   } = useForm();
-
+  const navigate = useNavigate();
   const axiosSecure = useAxiosSecure();
   const serviceCenter = useLoaderData();
   const regionDuplicate = serviceCenter.map((c) => c.region);
@@ -54,16 +54,20 @@ const SendParcel = () => {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes!",
+      confirmButtonText: "Confirm & continue payment!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosSecure.post("/parcel", data).then(() => {
-          reset();
-        });
-        Swal.fire({
-          title: "Confirmed!",
-          text: "Your parcel has been added.",
-          icon: "success",
+        axiosSecure.post("/parcel", data).then((res) => {
+          console.log(res.data.insertedId);
+          if (res.data.insertedId) {
+            navigate(`/dashboard/payment/${res.data.insertedId}`);
+            reset();
+            Swal.fire({
+              title: "Confirmed!",
+              text: "Your parcel has been added.",
+              icon: "success",
+            });
+          }
         });
       }
     });
@@ -160,17 +164,17 @@ const SendParcel = () => {
                   />
                 </fieldset>
               </div>
-               <fieldset className="fieldset w-full mt-5">
-                  <label className="label text-lg font-semibold text-gray-700">
-                    Sender Pickup Warehouse*
-                  </label>
-                  <input
-                    type="text"
-                    {...register("senderWarehouse", { required: "true" })}
-                    className="input w-full"
-                    placeholder="Select Warehouse"
-                  />
-                </fieldset>
+              <fieldset className="fieldset w-full mt-5">
+                <label className="label text-lg font-semibold text-gray-700">
+                  Sender Pickup Warehouse*
+                </label>
+                <input
+                  type="text"
+                  {...register("senderWarehouse", { required: "true" })}
+                  className="input w-full"
+                  placeholder="Select Warehouse"
+                />
+              </fieldset>
               <div className="mt-5">
                 <fieldset className="fieldset">
                   <legend className="fieldset-legend text-lg text-gray-700">
@@ -279,20 +283,18 @@ const SendParcel = () => {
                     placeholder="Receiver Email"
                   />
                 </fieldset>
-
-                
               </div>
               <fieldset className="fieldset w-full mt-5">
-                  <label className="label text-lg font-semibold text-gray-700">
-                    Receiver Delivery Warehouse*
-                  </label>
-                  <input
-                    type="text"
-                    {...register("receiverWarehouse", { required: true })}
-                    className="input w-full"
-                    placeholder="Select Warehouse"
-                  />
-                </fieldset>
+                <label className="label text-lg font-semibold text-gray-700">
+                  Receiver Delivery Warehouse*
+                </label>
+                <input
+                  type="text"
+                  {...register("receiverWarehouse", { required: true })}
+                  className="input w-full"
+                  placeholder="Select Warehouse"
+                />
+              </fieldset>
 
               <div className="mt-5">
                 <fieldset className="fieldset">

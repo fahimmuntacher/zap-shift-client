@@ -72,8 +72,23 @@ const DashBoardLayout = () => {
               >
                 <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-2.5">
                   {/* Dashboard icon */}
+                  
                   <MdDashboardCustomize></MdDashboardCustomize>
                   <span className="is-drawer-close:hidden">Dashboard</span>
+                </button>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/send-parcel"
+                className={({ isActive }) =>
+                  isActive ? "active-nav" : "inactive-nav"
+                }
+              >
+                <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-2.5">
+                  {/* Dashboard icon */}
+                  <GrDeliver />
+                  <span className="is-drawer-close:hidden">Send Parcel</span>
                 </button>
               </NavLink>
             </li>
