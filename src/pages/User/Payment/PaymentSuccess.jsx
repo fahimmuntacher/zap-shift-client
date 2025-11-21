@@ -18,7 +18,6 @@ const PaymentSuccess = () => {
       });
     }
   }, [id, axiosSecure]);
-  console.log(paymentInfo.trackingId);
   return (
     <div className="min-h-screen bg-[#F8FBEF] flex items-center justify-center px-4">
       <div className="bg-white rounded-2xl shadow-lg p-10 max-w-lg w-full text-center">
@@ -54,11 +53,11 @@ const PaymentSuccess = () => {
 
         <p className="text-gray-600 mb-3">
           Transaction id :{" "}
-          <span className="font-bold">{paymentInfo.transactionId}</span>
+          <span className="font-bold">{paymentInfo?.transactionId}</span>
         </p>
         <p className="text-gray-600 mb-4">
           Tracking id :{" "}
-          <span className="font-bold">{paymentInfo.trackingId}</span>
+          <span className="font-bold">{paymentInfo?.trackingId}</span>
         </p>
 
         {/* Continue Button */}
