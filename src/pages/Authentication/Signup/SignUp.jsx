@@ -1,10 +1,12 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import useAuth from "../../../Hooks/useAuth";
 import SocialLogin from "../SocialLogin/SocialLogin";
 import axios from "axios";
+import { toast } from "react-toastify";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const SignUp = () => {
   const {
@@ -12,7 +14,8 @@ const SignUp = () => {
     formState: { errors },
     handleSubmit,
   } = useForm();
-
+  const navigate = useNavigate()
+  const axiosSecure = useAxiosSecure()
   const { registerUser, updateUserProfile } = useAuth();
 
   // handle signup
@@ -29,14 +32,31 @@ const SignUp = () => {
           import.meta.env.VITE_IMG_HOST
         }`;
         axios.post(image_api_url, formData).then((res) => {
-          console.log("After image upload", res.data.data.url);
+          const photoURL = res.data.data.url;
+
+          const userInfo = {
+            email : data?.email,
+            name: data?.name,
+            photoURL : photoURL
+          }
+
+          axiosSecure.post("/users", userInfo)
+          .then((res) =>{
+            if(res.data.insertedId){
+              toast.success("user created database")
+            }
+          })
+
+          // update user
           const userProfile = {
             displayName: data.name,
-            photoURL: res.data.data.url,
+            photoURL: photoURL,
           };
+
           updateUserProfile(userProfile)
             .then(() => {
-              console.log("user profile updated done");
+              navigate("/")
+              toast.success("account created succesfully")
             })
             .catch((err) => {
               console.log(err);
@@ -127,7 +147,7 @@ const SignUp = () => {
         {/* Register button */}
         <button
           type="submit"
-          className="w-full bg-[#C7EB7F] text-black font-semibold py-2 rounded-md hover:bg-lime-300 transition"
+          className="w-full bg-[#C7EB7F] text-black font-semibold py-2 rounded-md hover:bg-lime-300 transition cursor-pointer"
         >
           Register
         </button>

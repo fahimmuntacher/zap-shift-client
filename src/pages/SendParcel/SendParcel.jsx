@@ -15,8 +15,8 @@ const SendParcel = () => {
   const navigate = useNavigate();
   const axiosSecure = useAxiosSecure();
   const serviceCenter = useLoaderData();
-  const regionDuplicate = serviceCenter.map((c) => c.region);
   const { user } = useAuth();
+  const regionDuplicate = serviceCenter.map((c) => c.region);
   const regions = [...new Set(regionDuplicate)];
   const senderRegion = useWatch({ control, name: "senderRegion" });
   const reciverRegion = useWatch({ control, name: "reciverRegion" });

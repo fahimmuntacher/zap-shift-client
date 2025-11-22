@@ -42,8 +42,8 @@ const Navbar = () => {
     </>
   );
   return (
-    <div className="w-full bg-white/80 backdrop-blur-md">
-      <div className="max-w-7xl mx-auto navbar px-4 relative">
+    <div className="w-full backdrop-blur-md">
+      <div className="max-w-7xl bg-white/80 rounded-2xl shadow-sm mx-auto navbar px-4 relative">
         {/* Left */}
         <div className="navbar-start flex items-center gap-2">
           {/* Mobile Hamburger */}

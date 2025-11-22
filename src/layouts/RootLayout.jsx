@@ -13,8 +13,8 @@ const RootLayout = () => {
       <div className="pointer-events-none absolute top-40 right-0 w-[300px] h-[300px] rounded-full bg-[#c1d8ff] opacity-30 blur-2xl"></div>
 
       {/* Sticky Navbar */}
-      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4">
+      <header className="sticky top-0 z-50  backdrop-blur-md">
+        <div className="max-w-7xl mx-auto py-4 px-4">
           <Navbar />
         </div>
       </header>
