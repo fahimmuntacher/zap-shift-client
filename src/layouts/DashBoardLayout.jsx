@@ -5,6 +5,7 @@ import "./dashboard.css";
 import { GrDeliver } from "react-icons/gr";
 import { MdDashboardCustomize } from "react-icons/md";
 import useAuth from "../Hooks/useAuth";
+import { FaHistory } from "react-icons/fa";
 
 const DashBoardLayout = () => {
   const { user } = useAuth();
@@ -42,9 +43,7 @@ const DashBoardLayout = () => {
             </div>
           </Link>
 
-          <div>
-            {user && <p>{user.displayName}</p>}
-          </div>
+          <div>{user && <p>{user.displayName}</p>}</div>
         </nav>
         {/* Page content here */}
 
@@ -66,13 +65,10 @@ const DashBoardLayout = () => {
             <li>
               <NavLink
                 to="/dashboard"
-                className={({ isActive }) =>
-                  isActive ? "active-nav" : "inactive-nav"
-                }
               >
                 <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-2.5">
                   {/* Dashboard icon */}
-                  
+
                   <MdDashboardCustomize></MdDashboardCustomize>
                   <span className="is-drawer-close:hidden">Dashboard</span>
                 </button>
@@ -89,6 +85,23 @@ const DashBoardLayout = () => {
                   {/* Dashboard icon */}
                   <GrDeliver />
                   <span className="is-drawer-close:hidden">Send Parcel</span>
+                </button>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="payment-history"
+                className={({ isActive }) =>
+                  isActive ? "active-nav" : "inactive-nav"
+                }
+              >
+                <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-2.5">
+                  {/* Dashboard icon */}
+                  <FaHistory />
+
+                  <span className="is-drawer-close:hidden">
+                    Payment History
+                  </span>
                 </button>
               </NavLink>
             </li>

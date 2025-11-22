@@ -3,10 +3,12 @@ import React from 'react';
 import { useParams } from 'react-router';
 import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 import Loading from '../../../components/Logo/Loading/Loading';
+import useAuth from '../../../Hooks/useAuth';
 
 const Payment = () => {
     const { parcelId } = useParams();
     const axiosSecure = useAxiosSecure();
+    const {user} = useAuth()
     
     const { isLoading, data: parcel } = useQuery({
         queryKey: ['parcel', parcelId],
@@ -21,7 +23,7 @@ const Payment = () => {
             cost: parcel.cost,
             metadata : parcel._id,
             parcelName : parcel.parcelName,
-            customer_email : parcel.senderEmail
+            customerEmail : parcel.senderEmail
         }
         const res = await axiosSecure.post("/payment-checkout-session", paymentInfo)
         console.log(res.data);
