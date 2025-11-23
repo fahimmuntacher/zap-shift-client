@@ -1,8 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
-import { FaEdit, FaUpload } from "react-icons/fa";
+import { FaCheckCircle, FaUpload } from "react-icons/fa";
 import { BiMenu } from "react-icons/bi";
+
+import { IoIosRemoveCircle } from "react-icons/io";
 import { FaTrashCan } from "react-icons/fa6";
 
 const ApproveRiders = () => {
@@ -117,19 +119,17 @@ const ApproveRiders = () => {
                       Aprroved
                     </span>
                   ) : (
-                    <button
-                      className="inline-block px-3 py-1 text-sm font-semibold text-yellow-800 bg-yellow-100 rounded-full hover:bg-yellow-200 transition"
-                    >
+                    <button className="inline-block px-3 py-1 text-sm font-semibold text-yellow-800 bg-yellow-100 rounded-full hover:bg-yellow-200 transition">
                       Pending
                     </button>
                   )}
                 </td>
                 <td className="py-3 px-4 text-center flex justify-center gap-2">
-                  <button className="p-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition">
-                    <FaEdit />
+                  <button className="p-2 bg-blue-50 text-gray-600 rounded-lg hover:bg-blue-100 transition">
+                    <FaCheckCircle />
                   </button>
                   <button className="p-2 bg-yellow-50 text-yellow-600 rounded-lg hover:bg-yellow-100 transition">
-                    <BiMenu />
+                    <IoIosRemoveCircle />
                   </button>
                   <button className="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition">
                     <FaTrashCan />
