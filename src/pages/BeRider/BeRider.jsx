@@ -33,7 +33,7 @@ const BeRider = () => {
     axiosSecure.post("/riders", data)
     .then(res => {
         if(res.data.insertedId){
-            toast.success("Your form has been added")
+            toast.success("Your form has been added, we'll confirm your via email!")
             reset()
         }
     })

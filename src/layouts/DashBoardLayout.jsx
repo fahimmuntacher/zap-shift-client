@@ -3,7 +3,7 @@ import Logo from "../components/Logo/Logo";
 import { Link, NavLink, Outlet } from "react-router";
 import "./dashboard.css";
 import { GrDeliver } from "react-icons/gr";
-import { MdDashboardCustomize } from "react-icons/md";
+import { MdDashboardCustomize, MdDirectionsBike } from "react-icons/md";
 import useAuth from "../Hooks/useAuth";
 import { FaHistory } from "react-icons/fa";
 
@@ -63,9 +63,7 @@ const DashBoardLayout = () => {
           <ul className="menu w-full grow space-y-3.5">
             {/* List item */}
             <li>
-              <NavLink
-                to="/dashboard"
-              >
+              <NavLink to="/dashboard">
                 <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-2.5">
                   {/* Dashboard icon */}
 
@@ -102,6 +100,21 @@ const DashBoardLayout = () => {
                   <span className="is-drawer-close:hidden">
                     Payment History
                   </span>
+                </button>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="approve-riders"
+                className={({ isActive }) =>
+                  isActive ? "active-nav" : "inactive-nav"
+                }
+              >
+                <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-2.5">
+                  {/* Dashboard icon */}
+                  <MdDirectionsBike />
+
+                  <span className="is-drawer-close:hidden">Approve Riders</span>
                 </button>
               </NavLink>
             </li>
