@@ -6,15 +6,20 @@ import { useNavigate } from "react-router";
 const instance = axios.create({
   baseURL: "http://localhost:3000",
 });
+
 const useAxiosSecure = () => {
   const { user } = useAuth();
   const { signOutUser } = useContext(AuthContext);
   const navigate = useNavigate();
   useEffect(() => {
-    const requestIntercepts = instance.interceptors.request.use((config) => {
-      config.headers.authorization = `Bearer ${user?.accessToken}`;
-      return config;
-    });
+    const requestIntercepts = instance.interceptors.request.use(
+      async (config) => {
+        if (user) {
+          config.headers.authorization = `Bearer ${user?.accessToken}`;
+        }
+        return config;
+      }
+    );
 
     // response intercepts
     const responseInterceptor = instance.interceptors.response.use(

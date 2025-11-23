@@ -6,10 +6,14 @@ import { BiMenu } from "react-icons/bi";
 
 import { IoIosRemoveCircle } from "react-icons/io";
 import { FaTrashCan } from "react-icons/fa6";
+import { toast } from "react-toastify";
+import useAuth from "../../../Hooks/useAuth";
+import Loading from "../../../components/Logo/Loading/Loading";
 
 const ApproveRiders = () => {
   const axiosSecure = useAxiosSecure();
-  const { data: riders = [] } = useQuery({
+  const { loading } = useAuth();
+  const { refetch ,isLoading, data: riders = [] } = useQuery({
     queryKey: ["riders", "pending"],
     queryFn: async () => {
       const res = await axiosSecure.get("/riders");
@@ -17,6 +21,32 @@ const ApproveRiders = () => {
     },
   });
 
+  const updateRiderStatus = (id, status) => {
+    const updateInfo = { status: status };
+    axiosSecure.patch(`/riders/${id}`, updateInfo).then((res) => {
+      console.log(res);
+      if (res.data.modifiedCount) {
+        refetch()
+        toast.success(`Rider status is set to ${status}`);
+      }
+    });
+  };
+
+  const handleApproval = (id) => {
+    updateRiderStatus(id, "approve");
+  };
+
+  const handleRejected = (id) => {
+    updateRiderStatus(id, "rejected");
+  };
+
+  if (loading) {
+    return <Loading></Loading>;
+  }
+
+  if (isLoading) {
+    return <Loading></Loading>;
+  }
   return (
     <div className="bg-gray-50 shadow rounded-xl p-8">
       {/* Table Header */}
@@ -114,21 +144,51 @@ const ApproveRiders = () => {
                   {rider.riderRegion}
                 </td>
                 <td className="py-3 px-4">
-                  {rider.status === "aprrove" ? (
-                    <span className="inline-block px-3 py-1 text-sm font-semibold text-green-800 bg-green-100 rounded-full">
-                      Aprroved
-                    </span>
-                  ) : (
-                    <button className="inline-block px-3 py-1 text-sm font-semibold text-yellow-800 bg-yellow-100 rounded-full hover:bg-yellow-200 transition">
-                      Pending
-                    </button>
-                  )}
+                  {(() => {
+                    const statusStyles = {
+                      pending: {
+                        text: "Pending",
+                        class:
+                          "inline-block px-3 py-1 text-sm font-semibold text-yellow-800 bg-yellow-100 rounded-full",
+                      },
+                      approve: {
+                        text: "Approved",
+                        class:
+                          "inline-block px-3 py-1 text-sm font-semibold text-green-800 bg-green-100 rounded-full",
+                      },
+                      rejected: {
+                        text: "Rejected",
+                        class:
+                          "inline-block px-3 py-1 text-sm font-semibold text-red-800 bg-red-100 rounded-full",
+                      },
+                      deleted: {
+                        text: "Deleted",
+                        class:
+                          "inline-block px-3 py-1 text-sm font-semibold text-gray-800 bg-gray-200 rounded-full",
+                      },
+                    };
+
+                    const { text, class: style } =
+                      statusStyles[rider.status] || statusStyles.pending;
+
+                    return <span className={style}>{text}</span>;
+                  })()}
                 </td>
                 <td className="py-3 px-4 text-center flex justify-center gap-2">
-                  <button className="p-2 bg-blue-50 text-gray-600 rounded-lg hover:bg-blue-100 transition">
+                  <button
+                    onClick={() => handleApproval(rider._id)}
+                    className={`p-2 bg-blue-50 ${
+                      rider.status === "approve"
+                        ? "text-green-600"
+                        : "text-gray-600"
+                    } rounded-lg hover:bg-blue-100 transition`}
+                  >
                     <FaCheckCircle />
                   </button>
-                  <button className="p-2 bg-yellow-50 text-yellow-600 rounded-lg hover:bg-yellow-100 transition">
+                  <button
+                    onClick={() => handleRejected(rider._id)}
+                    className="p-2 bg-yellow-50 text-yellow-600 rounded-lg hover:bg-yellow-100 transition"
+                  >
                     <IoIosRemoveCircle />
                   </button>
                   <button className="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition">

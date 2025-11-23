@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import useAuth from "../../../Hooks/useAuth";
 import { FaEdit, FaUpload } from "react-icons/fa";
@@ -7,8 +7,9 @@ import { BiMenu } from "react-icons/bi";
 import { FaTrashCan } from "react-icons/fa6";
 import Loading from "../../../components/Logo/Loading/Loading";
 
+
 const PaymentHistory = () => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const axiosSecure = useAxiosSecure();
   const { isLoading, data: paymentHistory } = useQuery({
     queryKey: ["payment", user?.email],
@@ -18,6 +19,10 @@ const PaymentHistory = () => {
     },
   });
   
+  if(loading){
+    return <Loading></Loading>
+  }
+
   if(isLoading){
     return <Loading></Loading>
   }

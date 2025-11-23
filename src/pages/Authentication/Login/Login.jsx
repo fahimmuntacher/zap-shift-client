@@ -81,7 +81,7 @@ const SignUp = () => {
       {/* Login Link */}
       <p className="mt-3 text-sm">
        Not have an account?{" "}
-        <Link to="/registration"><a className="text-blue-600 cursor-pointer hover:underline">Register</a></Link>
+        <Link to="/registration"><span className="text-blue-600 cursor-pointer hover:underline">Register</span></Link>
       </p>
 
       {/* Divider */}
