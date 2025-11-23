@@ -21,9 +21,9 @@ const ApproveRiders = () => {
     },
   });
 
-  const updateRiderStatus = (id, status) => {
-    const updateInfo = { status: status };
-    axiosSecure.patch(`/riders/${id}`, updateInfo).then((res) => {
+  const updateRiderStatus = (rider, status) => {
+    const updateInfo = { status: status, email : rider.riderEmail };
+    axiosSecure.patch(`/riders/${rider._id}`, updateInfo).then((res) => {
       console.log(res);
       if (res.data.modifiedCount) {
         refetch()
@@ -32,12 +32,12 @@ const ApproveRiders = () => {
     });
   };
 
-  const handleApproval = (id) => {
-    updateRiderStatus(id, "approve");
+  const handleApproval = (rider) => {
+    updateRiderStatus(rider, "approve");
   };
 
-  const handleRejected = (id) => {
-    updateRiderStatus(id, "rejected");
+  const handleRejected = (rider) => {
+    updateRiderStatus(rider, "rejected");
   };
 
   if (loading) {
@@ -176,7 +176,7 @@ const ApproveRiders = () => {
                 </td>
                 <td className="py-3 px-4 text-center flex justify-center gap-2">
                   <button
-                    onClick={() => handleApproval(rider._id)}
+                    onClick={() => handleApproval(rider)}
                     className={`p-2 bg-blue-50 ${
                       rider.status === "approve"
                         ? "text-green-600"
@@ -186,7 +186,7 @@ const ApproveRiders = () => {
                     <FaCheckCircle />
                   </button>
                   <button
-                    onClick={() => handleRejected(rider._id)}
+                    onClick={() => handleRejected(rider)}
                     className="p-2 bg-yellow-50 text-yellow-600 rounded-lg hover:bg-yellow-100 transition"
                   >
                     <IoIosRemoveCircle />
