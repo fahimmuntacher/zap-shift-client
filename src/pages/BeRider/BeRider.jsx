@@ -32,6 +32,11 @@ const BeRider = () => {
   const onSubmit = (data) => {
     axiosSecure.post("/riders", data)
     .then(res => {
+      if (res.data.applied) {
+        reset()
+        toast.warning("You have already applied!");
+        return;
+      }
         if(res.data.insertedId){
             toast.success("Your form has been added, we'll confirm your via email!")
             reset()

@@ -5,7 +5,7 @@ import "./dashboard.css";
 import { GrDeliver } from "react-icons/gr";
 import { MdDashboardCustomize, MdDirectionsBike } from "react-icons/md";
 import useAuth from "../Hooks/useAuth";
-import { FaHistory } from "react-icons/fa";
+import { FaHistory, FaUsers } from "react-icons/fa";
 
 const DashBoardLayout = () => {
   const { user } = useAuth();
@@ -115,6 +115,21 @@ const DashBoardLayout = () => {
                   <MdDirectionsBike />
 
                   <span className="is-drawer-close:hidden">Approve Riders</span>
+                </button>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="users-management"
+                className={({ isActive }) =>
+                  isActive ? "active-nav" : "inactive-nav"
+                }
+              >
+                <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-2.5">
+                  {/* Dashboard icon */}
+                  <FaUsers></FaUsers>
+
+                  <span className="is-drawer-close:hidden">Users Management</span>
                 </button>
               </NavLink>
             </li>

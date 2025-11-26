@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
-import { FaCheckCircle, FaUpload } from "react-icons/fa";
+import { FaCheckCircle, FaEye, FaUpload } from "react-icons/fa";
 import { BiMenu } from "react-icons/bi";
 
 import { IoIosRemoveCircle } from "react-icons/io";
@@ -13,7 +13,11 @@ import Loading from "../../../components/Logo/Loading/Loading";
 const ApproveRiders = () => {
   const axiosSecure = useAxiosSecure();
   const { loading } = useAuth();
-  const { refetch ,isLoading, data: riders = [] } = useQuery({
+  const {
+    refetch,
+    isLoading,
+    data: riders = [],
+  } = useQuery({
     queryKey: ["riders", "pending"],
     queryFn: async () => {
       const res = await axiosSecure.get("/riders");
@@ -22,11 +26,11 @@ const ApproveRiders = () => {
   });
 
   const updateRiderStatus = (rider, status) => {
-    const updateInfo = { status: status, email : rider.riderEmail };
+    const updateInfo = { status: status, email: rider.riderEmail };
     axiosSecure.patch(`/riders/${rider._id}`, updateInfo).then((res) => {
       console.log(res);
       if (res.data.modifiedCount) {
-        refetch()
+        refetch();
         toast.success(`Rider status is set to ${status}`);
       }
     });
@@ -175,6 +179,9 @@ const ApproveRiders = () => {
                   })()}
                 </td>
                 <td className="py-3 px-4 text-center flex justify-center gap-2">
+                  <button className="p-2 bg-blue-50 text-gray-600 rounded-lg hover:bg-yellow-100 transition cursor-pointer">
+                    <FaEye></FaEye>
+                  </button>
                   <button
                     onClick={() => handleApproval(rider)}
                     className={`p-2 bg-blue-50 ${
