@@ -7,10 +7,15 @@ import { MdDashboardCustomize, MdDirectionsBike } from "react-icons/md";
 import useAuth from "../Hooks/useAuth";
 import { FaHistory, FaUsers } from "react-icons/fa";
 import useRole from "../Hooks/useRole";
+import Loading from "../components/Logo/Loading/Loading";
 
 const DashBoardLayout = () => {
-  const { user } = useAuth();
-  const { role } = useRole();
+  const { user, loading } = useAuth();
+  const { role, roleLoading } = useRole();
+  console.log(role);
+  if(loading || roleLoading){
+    return <Loading></Loading>
+  }
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />

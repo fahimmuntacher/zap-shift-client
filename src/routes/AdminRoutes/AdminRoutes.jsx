@@ -14,12 +14,12 @@ const AdminRoutes = ({children}) => {
     return <Loading></Loading>;
   }
 
-  if (!user) {
+ if (!user) {
     return <Navigate to="/registration" state={{ from: location }} replace />;
   }
 
-  if(role !== "admin"){
-    return <Forbidden></Forbidden>
+   if (role !== "admin") {
+    return <Forbidden />;
   }
   return children;
 };
