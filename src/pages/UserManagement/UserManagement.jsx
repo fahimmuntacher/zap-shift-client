@@ -1,14 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
-import React, { useState } from "react";
+
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
-import { FaUserMinus, FaUserPlus, FaUserShield } from "react-icons/fa";
-import { toast } from "react-toastify";
+import {  FaUserPlus, FaUserShield } from "react-icons/fa";
+
 import Swal from "sweetalert2";
+import Loading from "../../components/Logo/Loading/Loading";
 
 const UserManagement = () => {
   const axiosSecure = useAxiosSecure();
 
-  const { data: users = [], refetch } = useQuery({
+  // fetch all users
+  const { isLoading, data: users = [], refetch } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
       const res = await axiosSecure.get(`/users`);
@@ -16,6 +18,7 @@ const UserManagement = () => {
     },
   });
 
+  // make admin role
   const handleUsers = (user) => {
     const updateInfo = { role: "admin" };
     Swal.fire({
@@ -42,6 +45,7 @@ const UserManagement = () => {
     });
   };
 
+  // remove admin role
   const removeAdmin = (user) => {
     const updateInfo = { role: "user" };
     Swal.fire({
@@ -68,9 +72,17 @@ const UserManagement = () => {
       }
     });
   };
+
+  if (isLoading) {
+    return <Loading></Loading>
+  }
   return (
-    <div>
-      <h1>User mangement {users.length}</h1>
+    <div className="bg-gray-50 shadow rounded-xl p-8">
+      {/* table header */}
+      <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6 md:mb-0">
+          Users List{" "}
+          <span className="text-blue-500">({users.length})</span>
+        </h1>
 
       <table className="min-w-full bg-white rounded-lg overflow-hidden">
         <thead className="bg-blue-50">

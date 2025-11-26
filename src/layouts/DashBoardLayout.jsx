@@ -6,9 +6,11 @@ import { GrDeliver } from "react-icons/gr";
 import { MdDashboardCustomize, MdDirectionsBike } from "react-icons/md";
 import useAuth from "../Hooks/useAuth";
 import { FaHistory, FaUsers } from "react-icons/fa";
+import useRole from "../Hooks/useRole";
 
 const DashBoardLayout = () => {
   const { user } = useAuth();
+  const { role } = useRole();
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -86,6 +88,7 @@ const DashBoardLayout = () => {
                 </button>
               </NavLink>
             </li>
+            {/* payment history */}
             <li>
               <NavLink
                 to="payment-history"
@@ -103,36 +106,47 @@ const DashBoardLayout = () => {
                 </button>
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                to="approve-riders"
-                className={({ isActive }) =>
-                  isActive ? "active-nav" : "inactive-nav"
-                }
-              >
-                <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-2.5">
-                  {/* Dashboard icon */}
-                  <MdDirectionsBike />
 
-                  <span className="is-drawer-close:hidden">Approve Riders</span>
-                </button>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="users-management"
-                className={({ isActive }) =>
-                  isActive ? "active-nav" : "inactive-nav"
-                }
-              >
-                <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-2.5">
-                  {/* Dashboard icon */}
-                  <FaUsers></FaUsers>
+            {role === "admin" && (
+              <>
+                <li>
+                  <NavLink
+                    to="approve-riders"
+                    className={({ isActive }) =>
+                      isActive ? "active-nav" : "inactive-nav"
+                    }
+                  >
+                    <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-2.5">
+                      {/* Dashboard icon */}
+                      <MdDirectionsBike />
 
-                  <span className="is-drawer-close:hidden">Users Management</span>
-                </button>
-              </NavLink>
-            </li>
+                      <span className="is-drawer-close:hidden">
+                        Approve Riders
+                      </span>
+                    </button>
+                  </NavLink>
+                </li>
+                {/* users management */}
+                <li>
+                  <NavLink
+                    to="users-management"
+                    className={({ isActive }) =>
+                      isActive ? "active-nav" : "inactive-nav"
+                    }
+                  >
+                    <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-2.5">
+                        
+                      <FaUsers></FaUsers>
+
+                      <span className="is-drawer-close:hidden">
+                        Users Management
+                      </span>
+                    </button>
+                  </NavLink>
+                </li>
+              </>
+            )}
+            {/* approve riders */}
 
             {/* List item */}
             <li>
