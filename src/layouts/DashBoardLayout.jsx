@@ -5,14 +5,14 @@ import "./dashboard.css";
 import { GrDeliver } from "react-icons/gr";
 import { MdDashboardCustomize, MdDirectionsBike } from "react-icons/md";
 import useAuth from "../Hooks/useAuth";
-import { FaHistory, FaUsers } from "react-icons/fa";
+import { FaBicycle, FaHistory, FaUsers } from "react-icons/fa";
 import useRole from "../Hooks/useRole";
 import Loading from "../components/Logo/Loading/Loading";
 
 const DashBoardLayout = () => {
   const { user, loading } = useAuth();
   const { role, roleLoading } = useRole();
-  console.log(role);
+  // console.log(role);
   if(loading || roleLoading){
     return <Loading></Loading>
   }
@@ -116,7 +116,7 @@ const DashBoardLayout = () => {
               <>
                 <li>
                   <NavLink
-                    to="approve-riders"
+                    to="assign-riders"
                     className={({ isActive }) =>
                       isActive ? "active-nav" : "inactive-nav"
                     }
@@ -124,6 +124,26 @@ const DashBoardLayout = () => {
                     <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-2.5">
                       {/* Dashboard icon */}
                       <MdDirectionsBike />
+
+                      <span className="is-drawer-close:hidden">
+                        Assign Riders
+                      </span>
+                    </button>
+                  </NavLink>
+                </li>
+
+                {/* approve riders */}
+                <li>
+                  <NavLink
+                    to="approve-riders"
+                    className={({ isActive }) =>
+                      isActive ? "active-nav" : "inactive-nav"
+                    }
+                  >
+                    <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-2.5">
+                      {/* Dashboard icon */}
+                      <FaBicycle />
+
 
                       <span className="is-drawer-close:hidden">
                         Approve Riders

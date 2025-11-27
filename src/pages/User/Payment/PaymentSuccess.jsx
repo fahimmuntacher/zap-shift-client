@@ -10,7 +10,7 @@ const PaymentSuccess = () => {
   useEffect(() => {
     if (id) {
       axiosSecure.patch(`/payment-success/${id}`).then((res) => {
-        console.log(res.data.trackingId, res.data.transactionId);
+        console.log(res.data);
         setPaymentInfo({
           transactionId: res.data.transactionId,
           trackingId: res.data.trackingId,

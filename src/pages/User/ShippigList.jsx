@@ -56,7 +56,8 @@ const ShippigList = ({ isLoading, parcels, refetch }) => {
       {/* Table Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
         <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4 md:mb-0">
-          Shipping Details <span className="text-blue-500">({parcels.length})</span>
+          Shipping Details{" "}
+          <span className="text-blue-500">({parcels.length})</span>
         </h1>
         <div className="flex items-center space-x-3">
           {/* Search Input */}
@@ -107,6 +108,9 @@ const ShippigList = ({ isLoading, parcels, refetch }) => {
                 Weight
               </th>
               <th className="py-3 px-4 text-left text-gray-700 font-semibold uppercase text-sm">
+                Delivery Status
+              </th>
+              <th className="py-3 px-4 text-left text-gray-700 font-semibold uppercase text-sm">
                 Shipper
               </th>
               <th className="py-3 px-4 text-left text-gray-700 font-semibold uppercase text-sm">
@@ -126,12 +130,25 @@ const ShippigList = ({ isLoading, parcels, refetch }) => {
                 key={parcel._id}
                 className="border-b hover:bg-gray-50 transition duration-150"
               >
-                <td className="py-3 px-4 text-gray-800 font-medium">#{parcel._id}</td>
-                <td className="py-3 px-4 text-gray-600 text-sm">{parcel.createdAt}</td>
-                <td className="py-3 px-4 text-gray-700">{parcel.receiverName}</td>
-                <td className="py-3 px-4 text-gray-700">{parcel.parcelWeight} kg</td>
-                <td className="py-3 px-4 text-gray-700">{parcel.senderEmail}</td>
-                <td className="py-3 px-4 text-gray-800 font-semibold">{parcel.cost} ৳</td>
+                <td className="py-3 px-4 text-gray-800 font-medium">
+                  #{parcel._id}
+                </td>
+                <td className="py-3 px-4 text-gray-600 text-sm">
+                  {parcel.createdAt}
+                </td>
+                <td className="py-3 px-4 text-gray-700">
+                  {parcel.receiverName}
+                </td>
+                <td className="py-3 px-4 text-gray-700">
+                  {parcel.parcelWeight} kg
+                </td>
+                <td className="py-3 px-4 text-gray-700">{parcel.deliveryStatus}</td>
+                <td className="py-3 px-4 text-gray-700">
+                  {parcel.senderEmail}
+                </td>
+                <td className="py-3 px-4 text-gray-800 font-semibold">
+                  {parcel.cost} ৳
+                </td>
                 <td className="py-3 px-4">
                   {parcel.paymentStatus === "Paid" ? (
                     <span className="inline-block px-3 py-1 text-sm font-semibold text-green-800 bg-green-100 rounded-full">

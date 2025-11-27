@@ -1,19 +1,25 @@
 import { useQuery } from "@tanstack/react-query";
 
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
-import {  FaUserPlus, FaUserShield } from "react-icons/fa";
+import { FaUserPlus, FaUserShield } from "react-icons/fa";
 
 import Swal from "sweetalert2";
 import Loading from "../../components/Logo/Loading/Loading";
+import { useState } from "react";
 
 const UserManagement = () => {
   const axiosSecure = useAxiosSecure();
-
+  const [search, setSearch] = useState("")
+  console.log(search);
   // fetch all users
-  const { isLoading, data: users = [], refetch } = useQuery({
-    queryKey: ["users"],
+  const {
+    isLoading,
+    data: users = [],
+    refetch,
+  } = useQuery({
+    queryKey: ["users", search],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/users`);
+      const res = await axiosSecure.get(`/users?searchText=${search}`);
       return res.data;
     },
   });
@@ -73,16 +79,43 @@ const UserManagement = () => {
     });
   };
 
-  if (isLoading) {
-    return <Loading></Loading>
-  }
+  // if (isLoading) {
+  //   return <Loading></Loading>;
+  // }
   return (
     <div className="bg-gray-50 shadow rounded-xl p-8">
       {/* table header */}
-      <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6 md:mb-0">
-          Users List{" "}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4 md:mb-0">
+          Users Details{" "}
           <span className="text-blue-500">({users.length})</span>
         </h1>
+        <div className="flex items-center space-x-3">
+          {/* Search Input */}
+          <div className="relative">
+            <input
+            onChange={(e) => setSearch(e.target.value)}
+              type="search"
+              placeholder="Search by users email"
+              className="pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300"
+            />
+            <svg
+              className="w-5 h-5 absolute left-3 top-2.5 text-gray-400"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </div>
+          
+        </div>
+      </div>
 
       <table className="min-w-full bg-white rounded-lg overflow-hidden">
         <thead className="bg-blue-50">

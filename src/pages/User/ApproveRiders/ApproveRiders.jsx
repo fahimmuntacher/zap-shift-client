@@ -111,7 +111,10 @@ const ApproveRiders = () => {
                 Region
               </th>
               <th className="py-3 px-4 text-left text-gray-700 font-semibold uppercase text-sm">
-                Status
+              Application  Status
+              </th>
+              <th className="py-3 px-4 text-left text-gray-700 font-semibold uppercase text-sm">
+              Work  Status
               </th>
               <th className="py-3 px-4 text-center text-gray-700 font-semibold uppercase text-sm">
                 Actions
@@ -177,6 +180,9 @@ const ApproveRiders = () => {
 
                     return <span className={style}>{text}</span>;
                   })()}
+                </td>
+                <td className="py-3 px-4">
+                  {rider.workStatus}
                 </td>
                 <td className="py-3 px-4 text-center flex justify-center gap-2">
                   <button className="p-2 bg-blue-50 text-gray-600 rounded-lg hover:bg-yellow-100 transition cursor-pointer">
