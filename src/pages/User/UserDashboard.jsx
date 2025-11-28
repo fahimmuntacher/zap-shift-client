@@ -15,7 +15,7 @@ const UserDashboard = () => {
   } = useQuery({
     queryKey: ["myParcel", user?.email],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/parcel?${user?.email}`);
+      const res = await axiosSecure.get(`/parcel?email=${user?.email}`);
       return res.data;
     },
   });

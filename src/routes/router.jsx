@@ -18,6 +18,8 @@ import ApproveRiders from "../pages/User/ApproveRiders/ApproveRiders";
 import UserManagement from "../pages/UserManagement/UserManagement";
 import AdminRoutes from "./AdminRoutes/AdminRoutes";
 import AssignRiders from "../pages/AssignRiders/AssignRiders";
+import ConfirmPickup from "../pages/ConfirmPickUp/ConfirmPickup";
+import RiderRoute from "./RiderRoute/RiderRoute";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -93,11 +95,14 @@ export const router = createBrowserRouter([
         path: "payment-history",
         element: <PaymentHistory></PaymentHistory>
       },
+
+      // admin only routes
       {
         path: "approve-riders",
 
         element: <AdminRoutes><ApproveRiders></ApproveRiders></AdminRoutes>
       },
+
       {
         path: "users-management",
        
@@ -107,6 +112,13 @@ export const router = createBrowserRouter([
         path: "assign-riders",
        
         element:<AdminRoutes><AssignRiders></AssignRiders></AdminRoutes>
+      },
+
+      // rider only routes
+      {
+        path: "confirm-pickup",
+       
+        element:<RiderRoute><ConfirmPickup></ConfirmPickup></RiderRoute>
       },
     ]
   }

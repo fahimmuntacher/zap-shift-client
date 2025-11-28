@@ -3,7 +3,11 @@ import Logo from "../components/Logo/Logo";
 import { Link, NavLink, Outlet } from "react-router";
 import "./dashboard.css";
 import { GrDeliver } from "react-icons/gr";
-import { MdDashboardCustomize, MdDirectionsBike } from "react-icons/md";
+import {
+  MdDashboardCustomize,
+  MdDeliveryDining,
+  MdDirectionsBike,
+} from "react-icons/md";
 import useAuth from "../Hooks/useAuth";
 import { FaBicycle, FaHistory, FaUsers } from "react-icons/fa";
 import useRole from "../Hooks/useRole";
@@ -13,8 +17,8 @@ const DashBoardLayout = () => {
   const { user, loading } = useAuth();
   const { role, roleLoading } = useRole();
   // console.log(role);
-  if(loading || roleLoading){
-    return <Loading></Loading>
+  if (loading || roleLoading) {
+    return <Loading></Loading>;
   }
   return (
     <div className="drawer lg:drawer-open">
@@ -112,6 +116,30 @@ const DashBoardLayout = () => {
               </NavLink>
             </li>
 
+            {/* rider only links */}
+            {role === "rider" && (
+              <>
+                <li>
+                  <NavLink
+                    to="confirm-pickup"
+                    className={({ isActive }) =>
+                      isActive ? "active-nav" : "inactive-nav"
+                    }
+                  >
+                    <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-2.5">
+                      {/* Dashboard icon */}
+                      <MdDeliveryDining />
+
+                      <span className="is-drawer-close:hidden">
+                        Confirm Pickup
+                      </span>
+                    </button>
+                  </NavLink>
+                </li>
+              </>
+            )}
+
+            {/* admin only links */}
             {role === "admin" && (
               <>
                 <li>
@@ -144,7 +172,6 @@ const DashBoardLayout = () => {
                       {/* Dashboard icon */}
                       <FaBicycle />
 
-
                       <span className="is-drawer-close:hidden">
                         Approve Riders
                       </span>
@@ -160,7 +187,6 @@ const DashBoardLayout = () => {
                     }
                   >
                     <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-2.5">
-                        
                       <FaUsers></FaUsers>
 
                       <span className="is-drawer-close:hidden">
