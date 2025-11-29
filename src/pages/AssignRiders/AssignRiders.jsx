@@ -10,6 +10,8 @@ const AssignRiders = () => {
   const axiosSecure = useAxiosSecure();
   const riderModalRef = useRef();
   const [selectedParcel, setSelectedParcel] = useState(null);
+
+  // get data 
   const { data: parcels = [], refetch : parcelsRefetch } = useQuery({
     queryKey: ["parcels", "pending-pickup"],
     queryFn: async () => {
