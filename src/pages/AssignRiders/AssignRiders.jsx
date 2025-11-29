@@ -30,7 +30,7 @@ const AssignRiders = () => {
         `/riders?status=approve&district=${selectedParcel.senderDistrict}&workStatus=available`
       );
      
-      console.log(res.data);
+      // console.log(res.data);
       return res.data;
     },
   });
@@ -38,6 +38,7 @@ const AssignRiders = () => {
   //   show modal
   const riderModal = (parcel) => {
     setSelectedParcel(parcel);
+    ridersRefatch()
     riderModalRef.current.showModal();
   };
 

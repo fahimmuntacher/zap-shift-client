@@ -20,6 +20,7 @@ import AdminRoutes from "./AdminRoutes/AdminRoutes";
 import AssignRiders from "../pages/AssignRiders/AssignRiders";
 import ConfirmPickup from "../pages/ConfirmPickUp/ConfirmPickup";
 import RiderRoute from "./RiderRoute/RiderRoute";
+import CompletedDeliveries from "../pages/CompletedTask/CompletedDeliveries";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -119,6 +120,11 @@ export const router = createBrowserRouter([
         path: "confirm-pickup",
        
         element:<RiderRoute><ConfirmPickup></ConfirmPickup></RiderRoute>
+      },
+      {
+        path: "completed-deliveries",
+       
+        element:<RiderRoute><CompletedDeliveries></CompletedDeliveries></RiderRoute>
       },
     ]
   }

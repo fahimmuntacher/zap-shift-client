@@ -3,13 +3,14 @@ import Logo from "../components/Logo/Logo";
 import { Link, NavLink, Outlet } from "react-router";
 import "./dashboard.css";
 import { GrDeliver } from "react-icons/gr";
+import { SiGoogletasks } from "react-icons/si";
 import {
   MdDashboardCustomize,
   MdDeliveryDining,
   MdDirectionsBike,
 } from "react-icons/md";
 import useAuth from "../Hooks/useAuth";
-import { FaBicycle, FaHistory, FaUsers } from "react-icons/fa";
+import { FaBicycle, FaHistory, FaTasks, FaUsers } from "react-icons/fa";
 import useRole from "../Hooks/useRole";
 import Loading from "../components/Logo/Loading/Loading";
 
@@ -121,14 +122,37 @@ const DashBoardLayout = () => {
               <>
                 <li>
                   <NavLink
+                    to="completed-deliveries"
+                    className={({ isActive }) =>
+                      isActive ? "active-nav" : "inactive-nav"
+                    }
+                  >
+                    <button
+                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-2.5"
+                      data-tip="Completed Deliveries"
+                    >
+                      {/* Dashboard icon */}
+                      <SiGoogletasks />
+
+                      <span className="is-drawer-close:hidden">
+                        Compelted Deliveries
+                      </span>
+                    </button>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
                     to="confirm-pickup"
                     className={({ isActive }) =>
                       isActive ? "active-nav" : "inactive-nav"
                     }
                   >
-                    <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-2.5">
+                    <button
+                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-2.5"
+                      data-tip="Confirm Pickup"
+                    >
                       {/* Dashboard icon */}
-                      <MdDeliveryDining />
+                      <FaTasks />
 
                       <span className="is-drawer-close:hidden">
                         Confirm Pickup
