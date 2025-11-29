@@ -5,33 +5,34 @@ import { FaEdit } from "react-icons/fa";
 import { BiMenu } from "react-icons/bi";
 import { FaTrashCan } from "react-icons/fa6";
 import { toast } from "react-toastify";
+import { SiLeaderprice } from "react-icons/si";
 
 const AssignRiders = () => {
   const axiosSecure = useAxiosSecure();
   const riderModalRef = useRef();
   const [selectedParcel, setSelectedParcel] = useState(null);
 
-  // get data 
-  const { data: parcels = [], refetch : parcelsRefetch } = useQuery({
+  // get data
+  const { data: parcels = [], refetch: parcelsRefetch } = useQuery({
     queryKey: ["parcels", "pending-pickup"],
     queryFn: async () => {
       const res = await axiosSecure.get(
         "/parcel?deliveryStatus=pending-pickup"
       );
-     
+
       console.log(res);
       return res.data;
     },
   });
   // console.log(selectedParcel);
-  const { data: riders = [], refetch : ridersRefatch } = useQuery({
+  const { data: riders = [], refetch: ridersRefatch } = useQuery({
     queryKey: ["riders", selectedParcel?.senderDistrict, "available"],
     enabled: !!selectedParcel,
     queryFn: async () => {
       const res = await axiosSecure.get(
         `/riders?status=approve&district=${selectedParcel.senderDistrict}&workStatus=available`
       );
-     
+
       // console.log(res.data);
       return res.data;
     },
@@ -40,7 +41,7 @@ const AssignRiders = () => {
   //   show modal
   const riderModal = (parcel) => {
     setSelectedParcel(parcel);
-    ridersRefatch()
+    ridersRefatch();
     riderModalRef.current.showModal();
   };
 
@@ -50,14 +51,17 @@ const AssignRiders = () => {
       riderId: rider._id,
       riderEmail: rider.riderEmail,
       riderName: rider.riderName,
+      parcelId: selectedParcel._id,
+      trackingId: selectedParcel.trackingId,
     };
 
-    axiosSecure.patch(`/parcel/${selectedParcel._id}`, riderAssignInfo)
-    .then(res => {
+    axiosSecure
+      .patch(`/parcel/${selectedParcel._id}`, riderAssignInfo)
+      .then((res) => {
         console.log(res.data);
-        parcelsRefetch()
-        toast.success("rider assigned")
-    })
+        parcelsRefetch();
+        toast.success("rider assigned");
+      });
   };
 
   return (
@@ -162,7 +166,7 @@ const AssignRiders = () => {
                     onClick={() => riderModal(parcel)}
                     className="p-3 bg-blue-100 cursor-pointer text-blue-600 font-bold rounded-lg hover:bg-blue-100 transition"
                   >
-                   Find Riders
+                    Find Riders
                   </button>
                 </td>
               </tr>
@@ -200,7 +204,6 @@ const AssignRiders = () => {
                   <td>
                     <button
                       onClick={() => handleRiderAssign(rider)}
-                      
                       className="btn btn-sm bg-green-100 text-green-600 font-bold text-sm"
                     >
                       Assign

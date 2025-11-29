@@ -26,7 +26,8 @@ const ConfirmPickup = () => {
   const handleAccept = async (parcel, status) => {
     const updateStatus = {
       deliveryStatus : status,
-      riderId :  parcel.riderId
+      riderId :  parcel.riderId,
+      trackingId : parcel.trackingId
     }
     await axiosSecure.patch(`/parcel/accept/${parcel._id}`, updateStatus)
       .then((res) => {

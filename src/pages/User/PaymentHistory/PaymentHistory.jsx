@@ -32,7 +32,7 @@ const PaymentHistory = () => {
       {/* Table header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
         <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4 md:mb-0">
-          Shipping Details <span className="text-blue-500">({paymentHistory?.length})</span>
+          Payment History <span className="text-blue-500">({paymentHistory?.length})</span>
         </h1>
         <div className="flex items-center space-x-3">
           {/* Search input */}

@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import Loading from "../../components/Logo/Loading/Loading";
+import { Link } from "react-router";
 
 const ShippigList = ({ isLoading, parcels, refetch }) => {
   const { user } = useAuth();
@@ -131,7 +132,7 @@ const ShippigList = ({ isLoading, parcels, refetch }) => {
                 className="border-b hover:bg-gray-50 transition duration-150"
               >
                 <td className="py-3 px-4 text-gray-800 font-medium">
-                  #{parcel._id}
+                  {parcel.trackingId ? <Link to={`/parcel-track/${parcel.trackingId}`}><span>{parcel.trackingId}</span></Link> : <span>{parcel._id}</span>}
                 </td>
                 <td className="py-3 px-4 text-gray-600 text-sm">
                   {parcel.createdAt}
@@ -144,7 +145,7 @@ const ShippigList = ({ isLoading, parcels, refetch }) => {
                 </td>
                 <td className="py-3 px-4 text-gray-700">{parcel.deliveryStatus}</td>
                 <td className="py-3 px-4 text-gray-700">
-                  {parcel.senderEmail}
+                  {parcel.riderEmail}
                 </td>
                 <td className="py-3 px-4 text-gray-800 font-semibold">
                   {parcel.cost} ৳

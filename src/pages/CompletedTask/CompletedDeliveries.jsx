@@ -20,10 +20,9 @@ const CompletedDeliveries = () => {
     },
   });
 
-
-  const calculatePayout = parcel => {
+  const calculatePayout = (parcel) => {
     return parcel.cost * 0.8;
-  }
+  };
   return (
     <div className="bg-gray-50 shadow rounded-xl p-8">
       {/* Header */}
@@ -83,7 +82,7 @@ const CompletedDeliveries = () => {
                 Cost
               </th>
               <th className="py-3 px-4 text-left text-sm font-semibold text-gray-700">
-                Payout 
+                Payout
               </th>
               <th className="py-3 px-4 text-center text-sm font-semibold text-gray-700">
                 Actions
@@ -128,11 +127,15 @@ const CompletedDeliveries = () => {
                   {parcel.cost} ৳
                 </td>
 
-                <td className="py-3 px-4 font-semibold text-green-800 ">{calculatePayout(parcel)}৳</td>
+                <td className="py-3 px-4 font-semibold text-green-800 ">
+                  {calculatePayout(parcel)}৳
+                </td>
 
                 {/* ACTION BUTTONS */}
                 <td className="py-3 px-4 text-center">
-                    <button className="btn bg-green-200 text-green-800 font-bold">Cashout</button>
+                  <button className="btn bg-green-200 text-green-800 font-bold">
+                    Cashout
+                  </button>
                 </td>
               </tr>
             ))}
